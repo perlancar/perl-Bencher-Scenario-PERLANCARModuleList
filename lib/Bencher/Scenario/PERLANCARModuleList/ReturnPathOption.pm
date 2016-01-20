@@ -22,14 +22,14 @@ _
         {
             module => 'PERLANCAR::Module::List',
             code_template => q!
-                PERLANCAR::Module::List::list_modules(<prefix>, {list_modules=>1, recurse=>1, return_path=>1});
+                PERLANCAR::Module::List::list_modules(<prefix>, {list_modules=>1, recurse=><recurse>, return_path=>1});
             !,
         },
         {
             module => 'Module::List',
             code_template => q!
                 require Module::Path;
-                my $mods = Module::List::list_modules(<prefix>, {list_modules=>1, recurse=>1});
+                my $mods = Module::List::list_modules(<prefix>, {list_modules=>1, recurse=><recurse>});
                 for my $mod (keys %$mods) {
                     $mods->{$mod} = Module::Path::module_path($mod);
                 }
@@ -39,8 +39,9 @@ _
     ],
 
     datasets => [
-        {name=>"Module", args=>{prefix=>"Module::"}},
-        {name=>"all", args=>{prefix=>""}, include_by_default=>0},
+        {name=>"IPC", args=>{prefix=>"IPC::", recurse=>0}},
+        {name=>"Module", args=>{prefix=>"Module::", recurse=>1}},
+        {name=>"all", args=>{prefix=>"", recurse=>1}, include_by_default=>0},
     ],
 };
 
